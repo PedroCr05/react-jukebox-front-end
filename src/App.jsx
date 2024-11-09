@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import * as jukeboxServices from "./services/jukeboxServices";
+import JukeboxList from "./components/JukeboxList";
+import JukeboxDetails from "./components/JukeboxDetails";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [jukeboxList, setJukeboxList] = useState([]);
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    const getJukeBoxList = async () => {
+      try {
+        const songs = await jukeboxServices.index();
+        if (songs.error) {
+          throw new Error(songs.error);
+        }
+        setJukeboxList(songs);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getJukeBoxList();
+  }, []);
+
+  const updateSelected = (song) => {
+    setSelected(song);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Welcome to the jukebox station!</h1>
+      <JukeboxList jukeboxList={jukeboxList} updateSelected={updateSelected} />
+      <JukeboxDetails selected={selected} />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
