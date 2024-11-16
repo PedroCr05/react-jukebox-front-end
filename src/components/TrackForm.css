@@ -1,0 +1,5 @@
+article {
+  display: grid;
+  grid-template-columns: repeat(2, fr);
+  grid-template-rows: repeat(2, fr);
+}

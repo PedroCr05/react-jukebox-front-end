@@ -1,36 +1,61 @@
 import { useState, useEffect } from "react";
-import * as jukeboxServices from "./services/jukeboxServices";
-import JukeboxList from "./components/JukeboxList";
-import JukeboxDetails from "./components/JukeboxDetails";
+import { Route, Routes } from "react-router-dom";
+import * as trackServices from "./services/trackServices.js";
+import Home from "./components/Home";
+import NavBar from "./components/NavBar";
+import TrackDetails from "./components/TrackDetails";
+import TrackForm from "./components/TrackForm.jsx";
 
 const App = () => {
-  const [jukeboxList, setJukeboxList] = useState([]);
+  const [trackList, setTrackList] = useState([]);
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    const getJukeBoxList = async () => {
+    const getTrackList = async () => {
       try {
-        const songs = await jukeboxServices.index();
+        const songs = await trackServices.index();
         if (songs.error) {
           throw new Error(songs.error);
         }
-        setJukeboxList(songs);
+        setTrackList(songs);
       } catch (e) {
         console.log(e);
       }
     };
-    getJukeBoxList();
+    getTrackList();
   }, []);
 
   const updateSelected = (song) => {
     setSelected(song);
   };
 
+  const addTrack = async (song) => {
+    try {
+      const newTrack = await trackServices.create(FormData);
+      setTrackList([newTrack, ...trackList]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
+      <NavBar />
       <h1>Welcome to the jukebox station!</h1>
-      <JukeboxList jukeboxList={jukeboxList} updateSelected={updateSelected} />
-      <JukeboxDetails selected={selected} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home trackList={trackList} updateSelected={updateSelected} />
+          }
+        />
+        <Route
+          path="/add-track"
+          element={<TrackForm addTrack={addTrack} track={trackList} />}
+        />
+      </Routes>
+
+      {/* <TrackDetails selected={selected} /> */}
     </>
   );
 };

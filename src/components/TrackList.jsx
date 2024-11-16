@@ -1,5 +1,5 @@
-const JukeboxList = (props) => {
-  const songs = props.jukeboxList.map((song) => (
+const TrackList = (props) => {
+  const songs = props.trackList.map((song) => (
     <a key={song._id} onClick={() => props.updateSelected(song)}>
       <li>{song.title}</li>
     </a>
@@ -13,4 +13,4 @@ const JukeboxList = (props) => {
   );
 };
 
-export default JukeboxList;
+export default TrackList;

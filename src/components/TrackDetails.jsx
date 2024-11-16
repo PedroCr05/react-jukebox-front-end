@@ -1,4 +1,4 @@
-const JukeboxDetails = (props) => {
+const TrackDetails = (props) => {
   if (!props.selected)
     return (
       <div>
@@ -27,4 +27,4 @@ const JukeboxDetails = (props) => {
   );
 };
 
-export default JukeboxDetails;
+export default TrackDetails;
