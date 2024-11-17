@@ -51,7 +51,13 @@ const App = () => {
         />
         <Route
           path="/add-track"
-          element={<TrackForm addTrack={addTrack} track={trackList} />}
+          element={
+            <TrackForm
+              addTrack={addTrack}
+              track={trackList}
+              selected={selected}
+            />
+          }
         />
       </Routes>
 
