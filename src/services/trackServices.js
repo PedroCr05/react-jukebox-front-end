@@ -10,7 +10,7 @@ const index = async () => {
   }
 };
 
-const create = async () => {
+const create = async (formData) => {
   try {
     const res = await axios.create(BASE_URL, formData);
     return res.data;
@@ -19,4 +19,23 @@ const create = async () => {
   }
 };
 
-export { create, index };
+const deleteTrack = async (id) => {
+  try {
+    const res = await axios.delete(`${BASE_URL}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const update = async (formData, id) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/${id}`, formData);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { create, deleteTrack, index, update };
